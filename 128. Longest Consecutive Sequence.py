@@ -21,24 +21,24 @@
 # -10^9 <= nums[i] <= 10^9
 
 
-nums = [100,4,200,1,3,2]
+nums = [0,3,7,2,5,8,4,6,0,1]
 
 def longestConSeq() -> int:
-    temp = [0] * 219
-    output, curr = 0, 0
+    numSet = set(nums)
+    longest = 0
+    oldhead = set()
 
     for i in nums:
-        temp[i + 109] = 1
+        length = 0
+        # 代表 i 是連續數字序列的起頭，且後面還有下一個連續數字
+        while(i not in oldhead and i - 1 not in numSet and i + length in numSet):
+            length += 1
+        # 若 nums 中有多個重複的數字序列起頭，例如 nums = [0,3,7,2,5,8,4,6,0,1] 中有兩個 0 為連續序列起頭，當檢查完第一個 0 後，不需要再重複檢查第二個 0
+        if length:
+            oldhead.add(i)
+        longest = max(length, longest)
     
-    for n in temp:
-        if n:
-            curr += 1
-        else:
-            curr = 0
-        output = max(output, curr)
-
-    return output
-
+    return longest
 
 if __name__ == "__main__":
     res = longestConSeq()
