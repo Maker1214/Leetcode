@@ -47,25 +47,27 @@
 #         count.add(n)
 
 # 方法2 : 時間複雜度 O(n)， 空間複雜度 O(1)，不happy number代表計算過程中某個數字會重複出現，因此造成計算過程為無窮迴圈，因此運用Floyd's algorithm來判斷是否有重複數字
-def helper(n:int) -> int:
-    s = 0
-    while n:
-        s += (n % 10) ** 2
-        n //= 10
-    return s
+class Solution():
+    def helper(self,n:int) -> int:
+        s = 0
+        while n:
+            s += (n % 10) ** 2
+            n //= 10
+        return s
 
-def isHappyNumber(n:int) -> bool :
-    slow = fast = n
-    while True:
-        slow = helper(slow)
-        fast = helper(helper(fast))        
-        if slow == 1 or fast == 1: return True
-        elif slow == fast: return False
+    def isHappyNumber(self,n:int) -> bool :
+        slow = fast = n
+        while True:
+            slow = self.helper(slow)
+            fast = self.helper(self.helper(fast))        
+            if slow == 1 or fast == 1: return True
+            elif slow == fast: return False
 
     
 
 if __name__ == "__main__":
     for i in range(101):
-        res = isHappyNumber(i)
+        f = Solution()
+        res = f.isHappyNumber(i)
         if res: print(f"{i} is happy number : {res}")
 
