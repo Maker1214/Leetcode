@@ -37,9 +37,39 @@ class Solution:
         while l <= r:
             m = (l + r) // 2
             if target == nums[m] or target == nums[l] or target == nums[r]: return True
-            
-            # m的右邊為非嚴格遞增在 m 的左邊
-            elif target > nums[m] and target > nums[r]: 
-
+            # 右半邊為不嚴格遞增，做binary search
+            if nums[m] < target <= nums[r]:
+                print("case 1")
+                return self.binarySearch(m,r,target,nums)
+            # 左半邊為不嚴格遞增，做binary search
+            elif nums[l] <= target < nums[m]:
+                print("case 2")
+                return self.binarySearch(l,m,target,nums)
+            # target位於左半邊，但左半邊尚未是不嚴格遞增
+            elif target > nums[m] :
+                print(f"case 3: index {m}, value {nums[m]}")
+                r = m - 1
+            # target位於右半邊，但右半邊尚未是不嚴格遞增
+            elif target < nums[m]:
+                print(f"case 4 : index {m}, value {nums[m]}")
+                l = m + 1
         return False
+    
+    def binarySearch(self,l,r,target,nums) -> bool:        
+        while l <= r:
+            m = (l + r) // 2
+            if target > nums[m]:
+                l = m + 1
+            elif target < nums[m]:
+                r = m - 1
+            else: return True
+        return False
+
+test = Solution()
+nums = [1,0,1,1,1]
+target = 0
+
+print(test.search(nums,target))
+
+
 
