@@ -29,6 +29,7 @@
  
 
 # Follow up: This problem is similar to Search in Rotated Sorted Array, but nums may contain duplicates. Would this affect the runtime complexity? How and why?
+# ==> 會的，當array中的相同數值越多時，時間複雜度越接近為O(n)，worst case為全部的數值都相同，則時間複雜度為 O(n)
 
 class Solution:
     def search(self, nums: list[int], target: int) -> bool:
@@ -36,34 +37,33 @@ class Solution:
         
         while l <= r:
             m = (l + r) // 2
-            if target == nums[m] or target == nums[l] or target == nums[r]: return True
-            # 右半邊為不嚴格遞增，做binary search
-            if nums[m] < target <= nums[r]:
-                print("case 1")
-                return self.binarySearch(m,r,target,nums)
-            # 左半邊為不嚴格遞增，做binary search
-            elif nums[l] <= target < nums[m]:
-                print("case 2")
-                return self.binarySearch(l,m,target,nums)
-            # target位於左半邊，但左半邊尚未是不嚴格遞增
-            elif target > nums[m] :
-                print(f"case 3: index {m}, value {nums[m]}")
-                r = m - 1
-            # target位於右半邊，但右半邊尚未是不嚴格遞增
-            elif target < nums[m]:
-                print(f"case 4 : index {m}, value {nums[m]}")
-                l = m + 1
+            if nums[m] == target : return True
+            # 例如 [1,0,1,1,1]
+            # 首先 [l   m   r]，此時不曉得 m 的哪一邊已經是sorted，先移動l or r，如果array中並非每個數字都相同，如此例題，則一直移動 l 或一直移動 r總會進入下一個判斷式
+            if nums[m] == nums[l]:
+                l += 1
+            # m 的左半邊已經排序
+            elif nums[l] < nums[m]:
+                #target位於已排序的左半邊
+                if nums[l] <= target < nums[m]:
+                    r = m - 1
+                #target位於未排序的右半邊
+                else:
+                    l = m + 1
+            # m 的右半邊已排序
+            else:
+                #target位於已排序的右半邊
+                if nums[m] < target <= nums[r]:
+                    l = m + 1
+                #target位於未排序的左半邊
+                else:
+                    r = m - 1
         return False
-    
-    def binarySearch(self,l,r,target,nums) -> bool:        
-        while l <= r:
-            m = (l + r) // 2
-            if target > nums[m]:
-                l = m + 1
-            elif target < nums[m]:
-                r = m - 1
-            else: return True
-        return False
+
+
+
+
+
 
 test = Solution()
 nums = [1,0,1,1,1]
