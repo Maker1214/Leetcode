@@ -66,6 +66,22 @@
 #         inorderTraversalHelper(root)
 #         return res
 
+# 寫法3 : 用迴圈的方式，搭配stack
+class Solution:
+    def inorderTraversal(self, root: Optional[TreeNode]) -> List[int]:
+        stack, res = [], []
+
+        curr = root
+        while curr:
+            stack.append(curr)
+            curr = curr.left
+            while not curr and stack:
+                node = stack.pop()               
+                res.append(node.val)
+                curr = node.right
+
+        return res
+
 
 
 
