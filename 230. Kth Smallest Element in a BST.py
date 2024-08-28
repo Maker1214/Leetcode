@@ -31,16 +31,36 @@
 #         self.right = right
 # 1. inorder and save it into a list
 # 2. find the result from that list
+# class Solution:
+#     def kthSmallest(self, root: Optional[TreeNode], k: int) -> int:
+#         res = []
+
+#         def inorder(root):
+#             if not root:
+#                 return 
+#             inorder(root.left)
+#             res.append(root.val)
+#             inorder(root.right)
+#         inorder(root)
+#         return res[k - 1]
+
+#寫法2 : 用迴圈來寫    
 class Solution:
     def kthSmallest(self, root: Optional[TreeNode], k: int) -> int:
-        res = []
+        stack = []
 
-        def inorder(root):
-            if not root:
-                return 
-            inorder(root.left)
-            res.append(root.val)
-            inorder(root.right)
-        inorder(root)
-        return res[k - 1]
-        
+        while root or stack:
+            while root:
+                stack.append(root)
+                root = root.left
+            curr = stack.pop()
+            k -= 1
+            if k == 0:
+                return curr.val
+            root = curr.right
+
+
+
+
+
+

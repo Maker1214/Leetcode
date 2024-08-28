@@ -67,19 +67,34 @@
 #         return res
 
 # 寫法3 : 用迴圈的方式，搭配stack
+# class Solution:
+#     def inorderTraversal(self, root: Optional[TreeNode]) -> List[int]:
+#         stack, res = [], []
+
+#         curr = root
+#         while curr:
+#             stack.append(curr)
+#             curr = curr.left
+#             while not curr and stack:
+#                 node = stack.pop()               
+#                 res.append(node.val)
+#                 curr = node.right
+
+#         return res
+    
+# 寫法4 : 一樣用迴圈的方式，搭配stack，code的寫法與寫法3稍有不同
 class Solution:
     def inorderTraversal(self, root: Optional[TreeNode]) -> List[int]:
-        stack, res = [], []
+        res, stack = [], []
 
-        curr = root
-        while curr:
-            stack.append(curr)
-            curr = curr.left
-            while not curr and stack:
-                node = stack.pop()               
-                res.append(node.val)
-                curr = node.right
-
+        while root or stack:
+            while root:
+                stack.append(root)
+                root = root.left
+            curr = stack.pop()
+            res.append(curr.val)
+            root = curr.right
+        
         return res
 
 
