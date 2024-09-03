@@ -31,3 +31,17 @@
 #         self.right = right
 class Solution:
     def diameterOfBinaryTree(self, root: Optional[TreeNode]) -> int:
+        self.res = 0
+
+        def dfs(root):
+            if not root:
+                return 0
+            
+            lLen = dfs(root.left)
+            rLen = dfs(root.right)
+            self.res = max(self.res, lLen + rLen)
+            # return the height
+            return 1 + max(lLen, rLen)
+        
+        dfs(root)
+        return self.res
