@@ -25,16 +25,12 @@ class Solution:
 
         for i in nums:            
             for j in range(len(stack)):
-                curr = stack.pop()                
-                stack = stack + [curr]
-                curr.append(i)
-                stack = stack + [curr]
-                print(stack)
-                
+                #stack[j] + [i]會產生一個新的位置來存放結果
+                stack.append(stack[j] +[i])            
         
         return stack
 
 nums = [1,2,3]
 test = Solution()
-print(test.subsets(nums))
+test.subsets(nums)
         
