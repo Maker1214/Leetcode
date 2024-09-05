@@ -33,18 +33,33 @@
 #         self.val = val
 #         self.left = left
 #         self.right = right
-from collections import deque
+# 寫法1
+# from collections import deque
+# class Solution:
+#     def isSameTree(self, p: Optional[TreeNode], q: Optional[TreeNode]) -> bool:
+#         stackP, stackQ = [], []
+#         def bfs(root, stack):
+#             q = deque()            
+#             q.append(root)
+#             while q:
+#                 for i in range(len(q)):
+#                     node = q.popleft()
+#                     stack.append(node.val) if node else stack.append(None)
+#                     if node:
+#                         q.append(node.left)                
+#                         q.append(node.right)
+        
+#         bfs(p, stackP)
+#         bfs(q, stackQ)
+
+#         return stackP == stackQ
+
+# 寫法2  
 class Solution:
     def isSameTree(self, p: Optional[TreeNode], q: Optional[TreeNode]) -> bool:
-        q1 = deque()
-        stackP = []
-            
-        q1.append(root)
-        while q1:
-            for i in range(len(q1)):
-                stackP.append(q1.popleft())
-
-            
-
-
+        if not p and not q:
+            return True
+        if not p or not q or p.val != q.val:
+            return False
         
+        return self.isSameTree(p.left, q.left) and self.isSameTree(p.right, q.right)
