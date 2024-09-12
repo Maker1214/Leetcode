@@ -42,12 +42,16 @@
 #         self.right = right
 class Solution:
     def goodNodes(self, root: TreeNode) -> int:
-        res = 0
-        
-        def dfs(curr, pathMax, res):            
+        self.res = 0
+                
+        def dfs(curr, pathMax):            
             if not curr:
-                return 0
+                return
             if curr.val >= pathMax:
-                res += 1
+                self.res += 1
                 pathMax = curr.val
-            return dfs(curr.left, pathMax, res) + dfs(curr.right, pathMax, res)
+            dfs(curr.left, pathMax)
+            dfs(curr.right, pathMax)
+        
+        dfs(root, root.val)
+        return self.res
