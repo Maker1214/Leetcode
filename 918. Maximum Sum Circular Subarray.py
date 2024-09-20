@@ -32,3 +32,18 @@
 
 class Solution:
     def maxSubarraySumCircular(self, nums: List[int]) -> int:
+        currMax = 0
+        sumMax = nums[0]
+        currMin = 0
+        sumMin = nums[0]
+        total = 0
+
+        for i in nums:
+            currMax = max(currMax + i, i)
+            sumMax = max(currMax, sumMax)
+            currMin = min(currMin + i, i)
+            sumMin = min(currMin, sumMin)
+            total += i
+        
+        #return sumMax if (total - sumMin) < sumMax or sumMax < 0 else total - sumMin
+        return max(sumMax, total - sumMin) if sumMax > 0 else sumMax

@@ -21,7 +21,8 @@ def Kadane(nums):
     currSum = 0
 
     for i in nums:
-        currSum = max(0, currSum) + i
+        #currSum = max(0, currSum) + i
+        currSum = max(currSum + i, i)
         maxSum = max(maxSum, currSum)
     
     return maxSum
