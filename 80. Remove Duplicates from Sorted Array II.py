@@ -44,5 +44,21 @@
 # nums is sorted in non-decreasing order.
 
 class Solution:
-    def removeDuplicates(self, nums: List[int]) -> int:
+    def removeDuplicates(self, nums: list[int]) -> int:
+        if len(nums) < 3:
+            return len(nums)
+        slow = 2
+        for fast in range(2, len(nums)):
+            if nums[slow - 2] != nums[fast]:
+                 nums[slow] = nums[fast]
+                 slow += 1
+        
+        return slow
+
+nums = [0,0,1,1,1,1,2,3,3]
+
+test = Solution()
+res = test.removeDuplicates(nums)
+
+print(nums,res)
         

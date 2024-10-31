@@ -43,4 +43,19 @@
 
 class Solution:
     def removeDuplicates(self, nums: List[int]) -> int:
+        L = R = 0
+        curr = float("-inf")
+
+        while L < len(nums) and R < len(nums):
+            nums[L], nums[R] = nums[R], nums[L]
+            curr = nums[L]
+            L += 1
+            R += 1
+            if L < len(nums) and nums[L] <= curr:
+                while R < len(nums) and nums[R] <= curr:
+                    R += 1
+        
+        return L
+            
+
         
