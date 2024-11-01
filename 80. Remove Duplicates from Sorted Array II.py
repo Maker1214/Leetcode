@@ -61,4 +61,26 @@ test = Solution()
 res = test.removeDuplicates(nums)
 
 print(nums,res)
-        
+
+
+
+# C :
+
+
+int removeDuplicates(int* nums, int numsSize) {
+    if (numsSize < 3){
+        return numsSize;
+    }
+    
+
+    uint32_t slow = 2, fast;
+
+    for (fast = 2; fast < numsSize; fast++){
+        if (nums[slow - 2] != nums[fast]){
+            nums[slow] = nums[fast];
+            slow += 1;
+        }
+    }
+    return slow;
+    
+}
