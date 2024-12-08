@@ -1,15 +1,16 @@
 class TreeNode:
     def __init__(self, value):
-        self.value = value
+        self.val = value
         self.left = None
         self.right = None
 
-def Search(root, target):
-    if not root:
-        return False
-    if target < root.value:
-        return Search(root.left, target)
-    elif target > root.value:
-        return Search(root.right, target)
-    else:
-        return True
+    def Search(self, root, target):
+        if not root:
+            return False
+        
+        if root.val < target:
+            return self.Search(root.right, target)
+        elif root.val > target:
+            return self.Search(root.left, target)
+        else:
+            return True
