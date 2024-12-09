@@ -43,20 +43,46 @@ k = 5
 #     if k <= 0: 
 #         print(f"{i} is the answer")
 #         break
-k = len(nums) - k
-def quickSelect(l,r):
-    pivot, p = nums[r], l
-    for i in range(l,r):
-        if nums[i] <= pivot:
-            nums[i], nums[p] = nums[p], nums[i]
-            p += 1
-    nums[p], nums[r] = nums[r], nums[p]
 
-    if p < k: return quickSelect(p+1, r)
-    elif p > k: return quickSelect(l,p-1)
-    else: return nums[p]
+# quicksort
+# k = len(nums) - k
+# def quickSelect(l,r):
+#     pivot, p = nums[r], l
+#     for i in range(l,r):
+#         if nums[i] <= pivot:
+#             nums[i], nums[p] = nums[p], nums[i]
+#             p += 1
+#     nums[p], nums[r] = nums[r], nums[p]
 
-print(quickSelect(0,len(nums)-1))
+#     if p < k: return quickSelect(p+1, r)
+#     elif p > k: return quickSelect(l,p-1)
+#     else: return nums[p]
+
+# print(quickSelect(0,len(nums)-1))
+
+# heap : 先heapify整個array. Time Complexity : O(n)
+import heapq
+
+# class Solution:
+#     def findKthLargest(self, nums: list[int], k: int) -> int:
+#         heapq.heapify(nums)
+
+#         while len(nums) > k:
+#             heapq.heappop(nums)
+        
+#         return heapq.heappop(nums)
+
+# heap : 直接maintain一個比較小的heap array. Time Complexity : O(nlogk)
+class Solution:
+    def findKthLargest(self, nums: list[int], k: int) -> int:
+        minHeap = []
+        for i in nums:
+            if len(minHeap) < k:
+                heapq.heappush(minHeap, i)
+            elif i > minHeap[0]:
+                heapq.heappushpop(minHeap, i)        
+        return heapq.heappop(minHeap)
 
 
-
+test = Solution()
+print(test.findKthLargest(nums, k))
