@@ -43,3 +43,23 @@ test = Solution()
 target = 7
 nums = [2,3,1,2,4,3]
 print(test.minSubArrayLen(target, nums))
+
+# C code:
+#include <limits.h>
+#define MIN(i, j) ((i < j) ? i : j)
+
+# int minSubArrayLen(int target, int* nums, int numsSize) {
+#     int minLen = INT_MAX;
+#     int curSum = 0;
+#     int l = 0;
+
+#     for (int r = 0; r < numsSize; r++){
+#         curSum += nums[r];
+#         while (curSum >= target){
+#             minLen = MIN(minLen, r - l + 1);
+#             curSum -= nums[l];
+#             l++;
+#         }
+#     }
+#     return (minLen == INT_MAX) ? 0 : minLen;
+# }
