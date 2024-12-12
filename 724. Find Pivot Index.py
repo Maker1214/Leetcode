@@ -40,3 +40,39 @@
 
 class Solution:
     def pivotIndex(self, nums: list[int]) -> int:
+        n = len(nums)
+        prefixSum = [0] * (n + 1)
+
+        for i in range(n):
+            prefixSum[i + 1] = prefixSum[i] + nums[i]
+        
+        for j in range(n):
+            leftSum = prefixSum[j]
+            rightSum = prefixSum[n] - prefixSum[j + 1]
+            if leftSum == rightSum:
+                return j
+        
+        return -1
+
+
+# C code
+
+# int pivotIndex(int* nums, int numsSize) {
+#     int *prefixSum = (int *)malloc((numsSize + 1) * sizeof(int));
+#     int leftSum = 0;
+#     int rightSum = 0;
+
+#     prefixSum[0] = 0;
+#     for(int i = 0; i < numsSize; i++){
+#         prefixSum[i + 1] = prefixSum[i] + nums[i];
+#     }
+
+#     for (int j = 0; j < numsSize; j++){
+#         leftSum = prefixSum[j];
+#         rightSum = prefixSum[numsSize] - prefixSum[j + 1];
+#         if (leftSum == rightSum){
+#             return j;
+#         }
+#     }
+#     return -1;
+# }
