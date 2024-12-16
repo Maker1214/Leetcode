@@ -40,3 +40,38 @@ if __name__ == "__main__":
     head = [1,2,3,4,5,6]
     f = Solution()
     print(f.middleNode(head))
+
+
+# C code
+# /**
+#  * Definition for singly-linked list.
+#  * struct ListNode {
+#  *     int val;
+#  *     struct ListNode *next;
+#  * };
+#  */
+# struct ListNode* middleNode(struct ListNode* head) {
+#     struct ListNode* p[2] = {head, head};
+
+#     while (p[0] && p[0] -> next){
+#         p[0] = p[0] -> next -> next;
+#         p[1] = p[1] -> next;
+#     }
+
+#     return p[1];    
+# }
+
+# struct ListNode{
+#     int val;
+#     struct ListNode* next;
+# };
+
+# struct ListNode* middleNode(struct ListNode* head) {
+#     struct ListNode* fast = head, *slow = head;
+
+#     while (fast && fast -> next){
+#         fast = fast -> next -> next;
+#         slow = slow -> next;
+#     }
+#     return slow;
+# }
