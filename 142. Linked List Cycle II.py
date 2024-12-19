@@ -39,24 +39,70 @@ class ListNode:
     def __init__(self, x):
         self.val = x
         self.next = None
-
+# 寫法1
 class Solution:
     def detectCycle(self, head: Optional[ListNode]) -> Optional[ListNode]:
-        slow = fast = head
-        while fast and fast.next and fast.next.next:
-            slow = slow.next
+        slow, fast = head, head
+
+        while fast and fast.next:
             fast = fast.next.next
-            if slow == fast:
-                step = 0
+            slow = slow.next
+            if fast == slow:
                 slow = head
                 while slow != fast:
                     slow = slow.next
                     fast = fast.next
-                    step += 1
-                return slow            
+                return slow
         return None
+
+# 寫法2
+class Solution:
+    def detectCycle(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        slow, fast = head, head
+
+        while fast and fast.next:
+            fast = fast.next.next
+            slow = slow.next
+
+            if slow == fast:
+                slow2 = head
+                break
+        if not fast or not fast.next:
+            return None
+        
+        while slow2 != slow:
+            slow2 = slow2.next
+            slow = slow.next
+        
+        return slow2
 
 if __name__ == "__main__":
     head = [3,2,0,-4]
     f = Solution()
     print(f.detectCycle(head))
+
+# C code
+# /**
+#  * Definition for singly-linked list.
+#  * struct ListNode {
+#  *     int val;
+#  *     struct ListNode *next;
+#  * };
+#  */
+# struct ListNode *detectCycle(struct ListNode *head) {
+#     struct ListNode *slow = head, *fast = head;
+
+#     while (fast && fast -> next){
+#         fast = fast -> next -> next;
+#         slow = slow -> next;
+#         if (slow == fast){
+#             slow = head;
+#             while (slow != fast){
+#                 slow = slow -> next;
+#                 fast = fast -> next;
+#             }
+#             return slow;
+#         }
+#     }
+#     return NULL;
+# }

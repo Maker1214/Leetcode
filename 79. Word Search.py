@@ -34,37 +34,29 @@
 
 class Solution:
     def exist(self, board: List[List[str]], word: str) -> bool:
-        charCnt = [0] * 26
-        hashMap = {}
-        length, width = len(board), len(board[0])
+        ROWS, COLS, wordLen = len(board), len(board[0]), len(word)
+        pathSet = set()
+
+        def dfs(col, row, idx):
+            if idx == wordLen:
+                return True
+            if col < 0 or col == COLS or row < 0 or row == ROWS or (row, col) in pathSet or board[row][col] != word[idx]:
+                return False
+            pathSet.add((row, col))
+            if dfs(col + 1, row, idx + 1) or dfs(col - 1, row, idx + 1) or dfs(col, row + 1, idx + 1) or dfs(col, row - 1, idx + 1):
+                return True
+            pathSet.remove((row, col))
+            return False
 
 
-        for i in range(length):
-            for j in range(width):
-                
-                hashMap[board[i][j]] = hashMap.get(board[i][j], charCnt)
-                hashMap[board[i][j]][ord(board[i][j]) - ord('A')] += 1
-                # except for the 1st row
-                if i < length - 1:
-                    # down char
-                    hashMap[board[i][j]][ord(board[i + 1][j]) - ord('A')] += 1
-                    if j < width - 1:                        
-                        # right char
-                        hashMap[board[i][j]][ord(board[i][j + 1]) - ord('A')] += 1
-                    elif j > 0:
-                        # left char
-                        hashMap[board[i][j]][ord(board[i][j - 1]) - ord('A')] += 1
-                # except for the last row
-                elif i > 0:
-                    # up char
-                    hashMap[board[i][j]][ord(board[i - 1][j]) - ord('A')] += 1
+        for col in range(COLS):
+            for row in range(ROWS):
+                if dfs(col, row, 0):
+                    return True
         
-
-        for c in range(len(word)):
-            if word[c] not in hashMap:
-                return False
-            if c == 0 and word[c + 1] not in hashMap[word[c]]:
-                return False
+        return False
+        
+        
 
 
 

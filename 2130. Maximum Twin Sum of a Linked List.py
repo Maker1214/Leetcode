@@ -85,6 +85,35 @@ class Solution:
         
         return res
 
+# C code
+# /**
+#  * Definition for singly-linked list.
+#  * struct ListNode {
+#  *     int val;
+#  *     struct ListNode *next;
+#  * };
+#  */
+int maxi(int a, int b){
+    return (a > b) ? a : b;
+}
+int pairSum(struct ListNode* head) {
+    struct ListNode *fast = head, *slow = head, *prev = NULL, *temp = NULL;
+    int res = 0;
 
+    while (fast && fast -> next){
+        fast = fast -> next -> next;
+        temp = slow -> next;
+        slow -> next = prev;
+        prev = slow;
+        slow = temp;        
+    }
+
+    while (slow){
+        res = maxi(res, slow -> val + prev -> val);
+        slow = slow -> next;
+        prev = prev -> next;
+    }
+    return res;
+}
 
         
