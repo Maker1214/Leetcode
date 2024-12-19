@@ -15,4 +15,10 @@
 
 
 
+test = ["A","B"]
+word = "CD"
 
+test.lower()
+word.lower()
+
+print(test, word)

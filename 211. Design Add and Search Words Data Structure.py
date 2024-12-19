@@ -36,43 +36,42 @@
 
 class TrieNode:
     def __init__(self):
-        self.child = {}
+        self.links = {}
         self.isEnd = False
 
 class WordDictionary:
-    def __init__(self):
-        self.root = TrieNode()        
+    def __init__(self): 
+        self.root = TrieNode()    
 
     def addWord(self, word: str) -> None:
         curr = self.root
 
         for c in word:
-            if c not in curr.child:
-                curr.child[c] = TrieNode()
-            curr = curr.child[c]
-        
+            if c not in curr.links:
+                curr.links[c] = TrieNode()
+            curr = curr.links[c]
         curr.isEnd = True
         
     def search(self, word: str) -> bool:
-        def dfs(j, curr):
-            for i in range(j, len(word)):
-                c = word[i]
 
-                if c == ".":
-                    for child in curr.child.values():
-                        if dfs(i + 1, child):
+        def dfs(curr, word):
+            for idx, c in enumerate(word):
+                if c == '.':
+                    for link in curr.links.values():
+                        if dfs(link, word[idx + 1:]):
                             return True
-                    return False                
+                    return False
                 else:
-                    if c not in curr.child:
+                    if c not in curr.links:
                         return False
-                    curr = curr.child[c]
+                    curr = curr.links[c]            
             return curr.isEnd
-        
-        return dfs(0, self.root)
+
+        return dfs(self.root, word)
+                
 
 
-        
+            
 
 
 # Your WordDictionary object will be instantiated and called as such:
