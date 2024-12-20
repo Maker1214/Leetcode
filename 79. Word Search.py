@@ -31,7 +31,8 @@
  
 
 # Follow up: Could you use search pruning to make your solution faster with a larger board?
-
+# time : O(ROWS * COLS * 4 ** wordLen)
+# memory : O(worldLen)
 class Solution:
     def exist(self, board: List[List[str]], word: str) -> bool:
         ROWS, COLS, wordLen = len(board), len(board[0]), len(word)

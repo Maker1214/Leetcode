@@ -33,6 +33,9 @@ def mathTest():
     print(f"round(2.5) 偶數捨入法: {round(2.5)}")
     print(f"round(1.5) 偶數捨入法: {round(1.5)}")
 
+    # 次方
+    print(f"次方 : {2 ** 3}")
+
 
 if __name__ == '__main__':
     mathTest()
