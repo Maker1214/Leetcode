@@ -29,50 +29,46 @@
 
 # Time Limited Exceeded
 # Time : O(len(words) * ROWS * COLS * 4 ** wordlen)
-class Solution:
-    def findWords(self, board: List[List[str]], words: List[str]) -> List[str]:
-        ROWS, COLS = len(board), len(board[0])
-        res = []
+# class Solution:
+#     def findWords(self, board: List[List[str]], words: List[str]) -> List[str]:
+#         ROWS, COLS = len(board), len(board[0])
+#         res = []
         
         
-        def dfs(col, row, word, idx, wordLen, v):
-            if idx == wordLen:
-                return True
-            if col < 0 or row < 0 or col == COLS or row == ROWS or board[row][col] != word[idx] or (col, row) in v:
-                return False
-            v.add((col, row))
-            if (dfs(col + 1, row, word, idx + 1, wordLen, v) or dfs(col - 1, row, word, idx + 1, wordLen, v) 
-                or dfs(col, row + 1, word, idx + 1, wordLen, v) or dfs(col, row - 1, word, idx + 1, wordLen, v)):
-                return True
-            v.remove((col, row))
-            return False
+#         def dfs(col, row, word, idx, wordLen, v):
+#             if idx == wordLen:
+#                 return True
+#             if col < 0 or row < 0 or col == COLS or row == ROWS or board[row][col] != word[idx] or (col, row) in v:
+#                 return False
+#             v.add((col, row))
+#             if (dfs(col + 1, row, word, idx + 1, wordLen, v) or dfs(col - 1, row, word, idx + 1, wordLen, v) 
+#                 or dfs(col, row + 1, word, idx + 1, wordLen, v) or dfs(col, row - 1, word, idx + 1, wordLen, v)):
+#                 return True
+#             v.remove((col, row))
+#             return False
 
-        for word in words:
-            visited = set()
-            wordLen = len(word)
-            skip = False
-            for col in range(COLS):
-                if skip:
-                    break
-                for row in range(ROWS):                    
-                    if dfs(col, row, word, 0, wordLen, visited):
-                        res.append(word)
-                        skip = True
-                        break
+#         for word in words:
+#             visited = set()
+#             wordLen = len(word)
+#             skip = False
+#             for col in range(COLS):
+#                 if skip:
+#                     break
+#                 for row in range(ROWS):                    
+#                     if dfs(col, row, word, 0, wordLen, visited):
+#                         res.append(word)
+#                         skip = True
+#                         break
         
-        return res
+#         return res
 
 class TrieNode:
     def __init__(self):
         self.links = {}
         self.isEnd = False
-
-class Trie:
-    def __init__(self):
-        self.root = TrieNode()
     
     def TrieAdd(self, word):
-        curr = self.root
+        curr = self
 
         for c in word:
             if c not in curr.links:
@@ -80,37 +76,36 @@ class Trie:
             curr = curr.links[c]
         
         curr.isEnd = True
-    
-    def TrieSearch(self, word):
-        curr = self.root
 
-        for c in word:
-            if c not in curr.links:
-                return False
-            curr = curr.links[c]
-        
-        return curr.isEnd
-
+# Time : O(m * n * 4 ** l), Memory : O(l), l is the longest length of word
 class Solution:
     def findWords(self, board: List[List[str]], words: List[str]) -> List[str]:
-        obj = Trie()
+        root = TrieNode()
 
         for word in words:
-            obj.TrieAdd(word)
+            root.TrieAdd(word)
         
         ROWS, COLS = len(board), len(board[0])
-        res = set()
+        res, visited, dup = set(), set(), set()
 
-        def dfs(col, row, curr):
-            if 
-            
+        def dfs(c, r, curr, word):
+            if c < 0 or r < 0 or c == COLS or r == ROWS or board[r][c] not in curr.links or (r, c) in visited:
+                return
+            visited.add((r,c))
+            curr = curr.links[board[r][c]]
+            word += board[r][c]
+            if curr.isEnd:
+                res.add(word)
+            dfs(c + 1, r, curr, word)
+            dfs(c - 1, r, curr, word)
+            dfs(c, r + 1, curr, word)
+            dfs(c, r - 1, curr, word)
+            visited.remove((r,c))
 
-
-
-        for col in COLS:
-            for row in ROWS:
-                if dfs():
-                    res.add(col, row, self.root)
-        
-        return res
+        for c in range(COLS):
+            for r in range(ROWS):
+                if board[r][c]  not in dup:
+                    dfs(c, r, root, "")
+                            
+        return list(res)
 
