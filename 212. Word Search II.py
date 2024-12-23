@@ -76,6 +76,24 @@ class TrieNode:
             curr = curr.links[c]
         
         curr.isEnd = True
+    
+    def TrieRemove(self,word):
+        curr = self
+        parent_and_children = []
+
+        for w in word:
+            parent_and_children.append((w, curr))
+            curr = curr.links[w]
+        
+        i = 1
+        for key, child in reversed(parent_and_children):
+            if i and child.isEnd:
+                child.isEnd = False # remove mark this char as not an END of word
+                i = 0 # when we meet isEnd the first time, it means this char is the END of this word. We need to avoid to remark other node again.
+            if len(child.links) == 0: # if there is only one key in the links, remove this key
+                del child.links[key]
+            else:
+                return        
 
 # Time : O(m * n * 4 ** l), Memory : O(l), l is the longest length of word
 class Solution:
@@ -86,20 +104,21 @@ class Solution:
             root.TrieAdd(word)
         
         ROWS, COLS = len(board), len(board[0])
-        res, visited, dup = set(), set(), set()
+        res, visited, dup = [], set(), set()
 
         def dfs(c, r, curr, word):
             if c < 0 or r < 0 or c == COLS or r == ROWS or board[r][c] not in curr.links or (r, c) in visited:
                 return
-            visited.add((r,c))
+            visited.add((r,c)) # Avoid to visit the same cell again
             curr = curr.links[board[r][c]]
             word += board[r][c]
             if curr.isEnd:
-                res.add(word)
-            dfs(c + 1, r, curr, word)
-            dfs(c - 1, r, curr, word)
-            dfs(c, r + 1, curr, word)
-            dfs(c, r - 1, curr, word)
+                res.append(word) # Add the word into the result when we find it in the grid
+                root.TrieRemove(word) # remove the work when we find it in the grid
+            dfs(c + 1, r, curr, word) # go right
+            dfs(c - 1, r, curr, word) # go left
+            dfs(c, r + 1, curr, word) # go up
+            dfs(c, r - 1, curr, word) # go diwn
             visited.remove((r,c))
 
         for c in range(COLS):
@@ -107,5 +126,5 @@ class Solution:
                 if board[r][c]  not in dup:
                     dfs(c, r, root, "")
                             
-        return list(res)
+        return res
 
