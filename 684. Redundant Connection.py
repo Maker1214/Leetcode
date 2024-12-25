@@ -41,20 +41,19 @@ class Solution:
 
         def unionVertices(x: int, y: int) -> bool:
             # x and y have the same root
-            if findRoot(x) == findRoot(y):
+            xRoot, yRoot = findRoot(x), findRoot(y)
+            if xRoot == yRoot:
                 return False
-            if rank[x] < rank[y]:
-                parent[x] = y
-            elif rank[y] < rank[x]:
-                parent[y] = x
+            if rank[xRoot] < rank[yRoot]:
+                parent[xRoot] = yRoot
+            elif rank[yRoot] < rank[xRoot]:
+                parent[yRoot] = xRoot
             else:
-                parent[y] = x
-                rank[x] += 1
+                parent[yRoot] = xRoot
+                rank[xRoot] += 1
             return True
 
         for x, y in edges:
             if unionVertices(x - 1, y - 1) == False:
                 return [x, y]
-        
-        for x, y in edges:
-            print(f"for {[x, y]}, root is {[findRoot(x - 1), findRoot(y - 1)]}")
+
