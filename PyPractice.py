@@ -15,10 +15,19 @@
 
 
 
-test = ["A","B"]
-word = "CD"
+# test = ["A","B"]
+# word = "CD"
 
-test.lower()
-word.lower()
+# test.lower()
+# word.lower()
 
-print(test, word)
+# print(test, word)
+
+# comprehension for initializetion
+a = [i for i in range(5)] # [0,1,2,3,4]
+b = {i: [i] for i in range(5)}
+
+for key in b:
+    print(key, b[key])
+
+

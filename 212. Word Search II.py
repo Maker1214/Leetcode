@@ -77,25 +77,27 @@ class TrieNode:
         
         curr.isEnd = True
     
-    def TrieRemove(self,word):
+    def TrieRemove(self,word, lastChar):
         curr = self
-        parent_and_children = []
+        char_adn_parentNode = []
 
-        for w in word:
-            parent_and_children.append((w, curr))
-            curr = curr.links[w]
-        
-        i = 1
-        for key, child in reversed(parent_and_children):
-            if i and child.isEnd:
-                child.isEnd = False # remove mark this char as not an END of word
-                i = 0 # when we meet isEnd the first time, it means this char is the END of this word. We need to avoid to remark other node again.
-            if len(child.links) == 0: # if there is only one key in the links, remove this key
-                del child.links[key]
+        for w in word:                       
+            char_adn_parentNode.append((w, curr))
+            curr = curr.links[w] 
+                                
+        for childKey, parentNode in reversed(char_adn_parentNode):
+            childNode = parentNode.links[childKey]
+            if lastChar:
+                childNode.isEnd = False # remove mark this char as not an END of word
+                lastChar = False # when we meet isEnd the first time, it means this char is the END of this word. We need to avoid to remark other node again.
+            if len(childNode.links) == 0: # if there is only one key in the links, remove this key
+                del parentNode.links[childKey]
             else:
-                return        
+                return
 
 # Time : O(m * n * 4 ** l), Memory : O(l), l is the longest length of word
+# Leetcode runtime beats 25% without TrieRemove function.
+# Leetcode runtime beats 86% with TrieRemove function.
 class Solution:
     def findWords(self, board: List[List[str]], words: List[str]) -> List[str]:
         root = TrieNode()
@@ -104,7 +106,7 @@ class Solution:
             root.TrieAdd(word)
         
         ROWS, COLS = len(board), len(board[0])
-        res, visited, dup = [], set(), set()
+        res, visited = [], set()
 
         def dfs(c, r, curr, word):
             if c < 0 or r < 0 or c == COLS or r == ROWS or board[r][c] not in curr.links or (r, c) in visited:
@@ -114,7 +116,7 @@ class Solution:
             word += board[r][c]
             if curr.isEnd:
                 res.append(word) # Add the word into the result when we find it in the grid
-                root.TrieRemove(word) # remove the work when we find it in the grid
+                root.TrieRemove(word, True) # remove the work when we find it in the grid. It could spped up
             dfs(c + 1, r, curr, word) # go right
             dfs(c - 1, r, curr, word) # go left
             dfs(c, r + 1, curr, word) # go up
@@ -123,7 +125,6 @@ class Solution:
 
         for c in range(COLS):
             for r in range(ROWS):
-                if board[r][c]  not in dup:
                     dfs(c, r, root, "")
                             
         return res
