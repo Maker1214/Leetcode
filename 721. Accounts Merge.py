@@ -44,7 +44,6 @@ class UnionFind:
     
     def unionVertices(self, x: int, y: int):
         xRoot, yRoot = self.findRoot(x), self.findRoot(y)
-        print(f"x, xroot is {x, xRoot}, y, yroot is {y, yRoot}")
 
         if xRoot == yRoot:
             return
@@ -59,38 +58,32 @@ class UnionFind:
 
 class Solution:
     def accountsMerge(self, accounts: list[list[str]]) -> list[list[str]]:
-        email2Account = {}
+        email2Account, res = {}, {}
         uf = UnionFind(len(accounts))
-        accountMap = {i:[i] for i in range(len(accounts))}
-        res = {}
-
 
         for idx, account in enumerate(accounts):
             for email in account[1:]:
                 if email not in email2Account:
                     email2Account[email] = idx
-                # this email exists, need to union it with the existed idx
-                else:
+                    res[idx] = res.get(idx, []) + [email]                
+                else: # this email exists, need to union it with the existed idx
                     uf.unionVertices(email2Account[email], idx)
-        
+        print(res)
+
         for i in range(len(accounts)):
             root = uf.findRoot(i)
-            print(f"root is {root}")
-            if root == -1:
-                res[i] = set(accounts[i][1:])
+            if root != i:
+                res[root] = res.get(root, []) + res[i]
+                del res[i]
             else:
-                res[root].add(accounts[i][1:])
-        
-        print(res)
-        
-
-                    
-        
-        
-
-
+                res[root] = [accounts[root][0]] + res[root]
+        print([sorted(v) for v in res.values()])
+        return [sorted(v) for v in res.values()]
+            
 obj = Solution()
-accounts = [["John","johnsmith@mail.com","john_newyork@mail.com"],["John","johnsmith@mail.com","john00@mail.com"],["Mary","mary@mail.com"],["John","johnnybravo@mail.com"]]
+#accounts = [["Gabe","Gabe0@m.co","Gabe3@m.co","Gabe1@m.co"],["Kevin","Kevin3@m.co","Kevin5@m.co","Kevin0@m.co"],["Ethan","Ethan5@m.co","Ethan4@m.co","Ethan0@m.co"],["Hanzo","Hanzo3@m.co","Hanzo1@m.co","Hanzo0@m.co"],["Fern","Fern5@m.co","Fern1@m.co","Fern0@m.co"]]
+#accounts = [["John","johnsmith@mail.com","john_newyork@mail.com"],["John","johnsmith@mail.com","john00@mail.com"],["Mary","mary@mail.com"],["John","johnnybravo@mail.com"]]
+accounts = [["Ethan","Ethan1@m.co","Ethan2@m.co","Ethan0@m.co"],["David","David1@m.co","David2@m.co","David0@m.co"],["Lily","Lily0@m.co","Lily0@m.co","Lily4@m.co"],["Gabe","Gabe1@m.co","Gabe4@m.co","Gabe0@m.co"],["Ethan","Ethan2@m.co","Ethan1@m.co","Ethan0@m.co"]]
 obj.accountsMerge(accounts)
 
         
