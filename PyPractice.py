@@ -31,3 +31,11 @@ for key in b:
     print(key, b[key])
 
 
+
+accounts = ["John","Aohnsmith@mail.com","john_newyork@mail.com", "john00@mail.com", "johna@mail.com"]
+
+accounts[1:].sort()
+
+print(accounts)
+
+

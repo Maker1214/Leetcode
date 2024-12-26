@@ -44,6 +44,7 @@ class UnionFind:
     
     def unionVertices(self, x: int, y: int):
         xRoot, yRoot = self.findRoot(x), self.findRoot(y)
+        print(f"x, xroot is {x, xRoot}, y, yroot is {y, yRoot}")
 
         if xRoot == yRoot:
             return
@@ -61,7 +62,7 @@ class Solution:
         email2Account = {}
         uf = UnionFind(len(accounts))
         accountMap = {i:[i] for i in range(len(accounts))}
-        res = []
+        res = {}
 
 
         for idx, account in enumerate(accounts):
@@ -70,26 +71,27 @@ class Solution:
                     email2Account[email] = idx
                 # this email exists, need to union it with the existed idx
                 else:
-                    accountMap[email2Account[email]].append(idx)
-                    del accountMap[idx]
+                    uf.unionVertices(email2Account[email], idx)
         
-        print(accountMap, len(accountMap))
+        for i in range(len(accounts)):
+            root = uf.findRoot(i)
+            print(f"root is {root}")
+            if root == -1:
+                res[i] = set(accounts[i][1:])
+            else:
+                res[root].add(accounts[i][1:])
         
-        for key, index in accountMap.items():
-            print(f"key is {key}")
-            temp = []
-            for i in index:
-                temp.append(accounts[i])
-            res.append(temp)
-            
         print(res)
+        
+
+                    
         
         
 
 
 obj = Solution()
 accounts = [["John","johnsmith@mail.com","john_newyork@mail.com"],["John","johnsmith@mail.com","john00@mail.com"],["Mary","mary@mail.com"],["John","johnnybravo@mail.com"]]
-
 obj.accountsMerge(accounts)
+
         
         
