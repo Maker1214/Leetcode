@@ -59,31 +59,44 @@ class UnionFind:
 class Solution:
     def accountsMerge(self, accounts: list[list[str]]) -> list[list[str]]:
         email2Account, res = {}, {}
-        uf = UnionFind(len(accounts))
+        n = len(accounts)
+        uf = UnionFind(n)
+        visitedName = set()
+        output = []
+        
 
         for idx, account in enumerate(accounts):
-            for email in account[1:]:
-                if email not in email2Account:
+            for email in list(set(account[1:])):
+                if email not in email2Account or account[0] not in visitedName:
                     email2Account[email] = idx
-                    res[idx] = res.get(idx, []) + [email]                
+                    res[idx] = res.get(idx, []) + [email]                            
                 else: # this email exists, need to union it with the existed idx
                     uf.unionVertices(email2Account[email], idx)
-        print(res)
+            visitedName.add(account[0])
 
-        for i in range(len(accounts)):
-            root = uf.findRoot(i)
-            if root != i:
-                res[root] = res.get(root, []) + res[i]
-                del res[i]
+        # Add the mails of non-parent Node into the list of the parent's Node
+        # Also add the name into the corresponding list
+        for key in res:
+            root = uf.findRoot(key)
+            if root != key: # this node has parent
+                res[root] = res.get(root, []) + res[key]
             else:
                 res[root] = [accounts[root][0]] + res[root]
-        print([sorted(v) for v in res.values()])
-        return [sorted(v) for v in res.values()]
+
+        # sort the list from the 1st element, except for the name
+        for key, val in res.items():
+            if uf.findRoot(key) == key:
+                temp = val[1:]
+                temp.sort()
+                output.append([val[0]] + temp)
+
+        return output
             
 obj = Solution()
 #accounts = [["Gabe","Gabe0@m.co","Gabe3@m.co","Gabe1@m.co"],["Kevin","Kevin3@m.co","Kevin5@m.co","Kevin0@m.co"],["Ethan","Ethan5@m.co","Ethan4@m.co","Ethan0@m.co"],["Hanzo","Hanzo3@m.co","Hanzo1@m.co","Hanzo0@m.co"],["Fern","Fern5@m.co","Fern1@m.co","Fern0@m.co"]]
-#accounts = [["John","johnsmith@mail.com","john_newyork@mail.com"],["John","johnsmith@mail.com","john00@mail.com"],["Mary","mary@mail.com"],["John","johnnybravo@mail.com"]]
-accounts = [["Ethan","Ethan1@m.co","Ethan2@m.co","Ethan0@m.co"],["David","David1@m.co","David2@m.co","David0@m.co"],["Lily","Lily0@m.co","Lily0@m.co","Lily4@m.co"],["Gabe","Gabe1@m.co","Gabe4@m.co","Gabe0@m.co"],["Ethan","Ethan2@m.co","Ethan1@m.co","Ethan0@m.co"]]
+accounts = [["John","johnsmith@mail.com","john_newyork@mail.com"],["John","johnsmith@mail.com","john00@mail.com"],["Mary","mary@mail.com"],["John","johnnybravo@mail.com"]]
+#accounts = [["Ethan","Ethan1@m.co","Ethan2@m.co","Ethan0@m.co"],["David","David1@m.co","David2@m.co","David0@m.co"],["Lily","Lily0@m.co","Lily0@m.co","Lily4@m.co"],["Gabe","Gabe1@m.co","Gabe4@m.co","Gabe0@m.co"],["Ethan","Ethan2@m.co","Ethan1@m.co","Ethan0@m.co"]]
+#accounts = [["Ethan","Ethan1@m.co","Ethan2@m.co","Ethan0@m.co"],["David","David1@m.co","David2@m.co","David0@m.co"],["Lily","Lily0@m.co","Lily0@m.co","Lily4@m.co"],["Gabe","Gabe1@m.co","Gabe4@m.co","Gabe0@m.co"],["Mary","Ethan2@m.co","Ethan1@m.co","Ethan0@m.co"]]
 obj.accountsMerge(accounts)
 
         
