@@ -45,7 +45,7 @@ class MinHeap:
         return self.heap[1]
     
     def heapify(self,arr):
-        # move the 0th val to the end
+        # move the 0th val to the arr end 
         arr.append(arr[0])
         self.heap = arr
 
