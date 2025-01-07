@@ -1,90 +1,62 @@
-class SegmentTree:
-    def __init__(self, nums):
-        """
-        初始化线段树
-        :param nums: 输入数组
-        """
-        self.n = len(nums)
-        self.tree = [0] * (4 * self.n)  # 线段树的存储空间通常是 4 倍数组大小
-        self.build(0, 0, self.n - 1, nums)
-
-    def build(self, node, start, end, nums):
-        """
-        递归构建线段树
-        :param node: 当前树节点索引
-        :param start: 当前节点覆盖的区间起点
-        :param end: 当前节点覆盖的区间终点
-        :param nums: 输入数组
-        """
-        if start == end:  # 叶子节点
-            self.tree[node] = nums[start]
-            print(f"node is {node}, self.tree[node] is {nums[start]}, start is {start} , end is {end}")
+class SegmentTree():
+    def __init__(self, nums: list, n: int):
+        self.arr = nums
+        self.tree = [0] * 3 * n # n is the len(nums)
+        
+    def buildTree(self, rootNode: int, L: int, R: int):
+        if L == R:
+            self.tree[rootNode] = self.arr[L]
         else:
-            mid = (start + end) // 2
-            left_child = 2 * node + 1
-            right_child = 2 * node + 2
-            self.build(left_child, start, mid, nums)  # 左子树
-            self.build(right_child, mid + 1, end, nums)  # 右子树
-            self.tree[node] = self.tree[left_child] + self.tree[right_child]  # 根据需求修改（如求和）
-            print(f"node is {node}, self.tree[node] is {self.tree[node]}, left_child is {left_child} , right_child is {right_child}")
+            leftNode = rootNode * 2 + 1
+            rightNode = rootNode * 2 + 2
+            M = (L + R) // 2
+            self.buildTree(leftNode, L, M)
+            self.buildTree(rightNode, M + 1, R)
+            self.tree[rootNode] = self.tree[leftNode] + self.tree[rightNode]
+    
+    def update(self, rootNode: int, L: int, R: int, idx: int, val: int):
+        if L == R:
+            self.tree[rootNode] = val
+            return
+        leftNode = rootNode * 2 + 1
+        rightNode = rootNode * 2 + 2
+        M = (L + R) // 2
+        if idx <= M: # this node belongs to left tree
+            self.update(leftNode, L, M, idx, val)
+        else: # this node belongs to right tree
+            self.update(rightNode, M + 1, R, idx, val)
+        self.tree[rootNode] = self.tree[leftNode] + self.tree[rightNode]
+    
+    def query(self, rootNode: int, L: int, R: int, start: int, end: int) -> int:
+        print(f"rootNode is {rootNode}, [L, R] is {L, R}")
+        if start == L and end == R:
+            return self.tree[rootNode]
 
-
-    def query(self, node, start, end, l, r):
-        """
-        区间查询
-        :param node: 当前树节点索引
-        :param start: 当前节点覆盖的区间起点
-        :param end: 当前节点覆盖的区间终点
-        :param l: 查询区间的起点
-        :param r: 查询区间的终点
-        :return: 查询结果
-        """
-        if r < start or l > end:  # 完全不相交
-            return 0  # 根据需求修改（如区间最小值可返回 float('inf')）
-        if l <= start and end <= r:  # 完全包含
-            return self.tree[node]
-        # 部分重叠
-        mid = (start + end) // 2
-        left_child = 2 * node + 1
-        right_child = 2 * node + 2
-        left_sum = self.query(left_child, start, mid, l, r)
-        right_sum = self.query(right_child, mid + 1, end, l, r)
-        return left_sum + right_sum  # 根据需求修改
-
-    def update(self, node, start, end, idx, value):
-        """
-        单点更新
-        :param node: 当前树节点索引
-        :param start: 当前节点覆盖的区间起点
-        :param end: 当前节点覆盖的区间终点
-        :param idx: 需要更新的索引
-        :param value: 更新值
-        """
-        if start == end:  # 叶子节点
-            self.tree[node] = value
+        leftNode = rootNode * 2 + 1
+        rightNode = rootNode * 2 + 2
+        M = (L + R) // 2
+        if end <= M: # the entire query range locates in left tree
+            return self.query(leftNode, L, M, start, end)
+        elif start > M: # the entire query range locates in right tree
+            return self.query(rightNode, M + 1, R, start, end)
         else:
-            mid = (start + end) // 2
-            left_child = 2 * node + 1
-            right_child = 2 * node + 2
-            if start <= idx <= mid:  # 更新在左子树
-                self.update(left_child, start, mid, idx, value)
-            else:  # 更新在右子树
-                self.update(right_child, mid + 1, end, idx, value)
-            self.tree[node] = self.tree[left_child] + self.tree[right_child]  # 根据需求修改
+            # query [2 ,5] 只送符合左樹range[0(L) ,2(M)]的範圍到左樹，也就是[2(start), 2(M)]
+            # query [2 ,5] 只送符合右樹range[3(M+1) ,5(R)]的範圍到右樹，也就是[3(M+1), 5(end)]
+            return self.query(leftNode, L, M, start, M) + self.query(rightNode, M + 1, R, M + 1, end)
 
-    def range_query(self, l, r):
-        """
-        对外的区间查询接口
-        """
-        return self.query(0, 0, self.n - 1, l, r)
+nums = [1,3,5,7,9,11]
+obj = SegmentTree(nums, len(nums))
+obj.buildTree(0, 0, len(nums) - 1)
 
-    def point_update(self, idx, value):
-        """
-        对外的单点更新接口
-        """
-        self.update(0, 0, self.n - 1, idx, value)
+for v in range(len(obj.tree)):
+    print(f"tree node {v} is {obj.tree[v]}")
 
-nums = [9,7,2,8,3]
-obj = SegmentTree(nums)
-obj.build(0,0,len(nums) - 1, nums)
-print(obj.tree)
+print("=======")
+
+obj.update(0, 0, len(nums) - 1, 4, 6)
+for v in range(len(obj.tree)):
+    print(f"tree node {v} is {obj.tree[v]}")
+
+val = obj.query(0, 0, len(nums) - 1, 1 ,5)
+print(val)
+
