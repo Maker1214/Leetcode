@@ -38,4 +38,10 @@ accounts[1:].sort()
 
 print(accounts)
 
+a = 3
 
+
+print(~a + 1)
+
+b = -3
+print(~((b ^ 0xf) & 0xf))
