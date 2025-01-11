@@ -38,4 +38,7 @@ accounts[1:].sort()
 
 print(accounts)
 
+for i in range(9):
+    print(f"{i} binary : {i:b}")
+    print(f"{-1 * i} binary : {(-1 * i):b}")
 
