@@ -38,7 +38,16 @@ accounts[1:].sort()
 
 print(accounts)
 
+<<<<<<< HEAD
 for i in range(9):
     print(f"{i} binary : {i:b}")
     print(f"{-1 * i} binary : {(-1 * i):b}")
+=======
+a = 3
+>>>>>>> 8d275610f1742ecaa2f8f14025187db84f9c02d1
 
+
+print(~a + 1)
+
+b = -3
+print(~((b ^ 0xf) & 0xf))

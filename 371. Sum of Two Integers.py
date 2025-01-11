@@ -29,7 +29,6 @@ class Solution:
         # Why Flip the Bits and Take Two's Complement?
         # In Python, numbers are treated as UNSIGNED by default, meaning Python will interpret all binary representations as POSITUVE integers. 
         # To simulate signed 16-bit integers (e.g., negative numbers), we need to handle cases where the result of our operation exceeds the maximum positive value of a 16-bit integer (1 & (1 << 15) == 1).
-
         # Here’s the process:
 
         # 1. If the result of the computation exceeds the 16-bit signed integer max (1 & (1 << 15) == 1), we know it’s a negative number in the context of 16-bit integers.
@@ -50,10 +49,40 @@ class Solution:
         # 10進位若是負值或者小於maxInt，則用原本的10進位表示
         # 10進位若是大於等於maxInt，Python認為是正值，但我們希望認定為負值，利用~(a ^ mask)來告訴Python用負10進位來表示
         return a if a < maxInt else ~(a ^ mask)
+
+# O(32)
+# 參考 https://www.youtube.com/watch?v=EyPEST8YsTg 
+# 例如 :
+#  a  b
+# -3 -1 => -4
+# -3  1 => -2
+#  3  1 =>  4
+#  3 -1 =>  2
+# 答案的正負數由a是否大於0決定，若a < 0，答案一定是負數
+# 若 a * b >= 0 ，代表 abs(答案) = abs(a) + abs(b)
+# 反之 ，代表 abs(答案) = abs(a) - abs(b)
+# 最終答案 = 正數或負數 * abs(答案)
+
+# class Solution:
+#     def getSum(self, a: int, b: int) -> int:
+#         x, y = abs(a), abs(b)
+
+#         if x < y:
+#             return self.getSum(b, a)
+        
+#         sign = 1 if a >= 0 else -1
+
+#         if a * b >= 0:
+#             while y:
+#                 x ,y = x ^ y, (x & y) << 1
+#         else:
+#             while y:
+#                 x, y = x ^ y, ((~x) & y) << 1
+        
+#         return x * sign
+
         
 test = Solution()
 print(test.getSum(-100,0))
-
-
-
+print(test.getSum(-5,3))
 
