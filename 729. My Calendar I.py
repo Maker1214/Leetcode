@@ -44,30 +44,48 @@
 #         return True
 
 class treeNode:
-    def __init(self, s: int, e: int):
-        self.node = [s, e]
+    def __init__(self, s: int, e: int):
+        self.start = s
+        self.end = e
         self.left = None
         self.right = None
 
-
 class MyCalendar:
     def __init__(self):
-        self.root = treeNode(None, None)
+        self.root = None
     
     def book(self, startTime: int, endTime: int) -> bool:
-        if self.root == None:
+        return self.insert(startTime, endTime, self.root)        
+
+    def insert(self, startTime: int, endTime: int, rootNode) -> bool:
+        print(f"book {startTime, endTime}")
+        if not rootNode:
             self.root = treeNode(startTime, endTime)
+            print(f"Add a treeNode {startTime, endTime}")
             return True
-        while self.root:
-            if startTime < self.root.node[1] and endTime > self.root.node[0]:
-                return False
-            if startTime >= self.root.node[1]: #往右子樹尋找
-                self.root = self.right
-            else: #往左子樹尋找
-                self.root= self.left
-        self.root = treeNode(startTime, endTime)
-        return True
+        
+        if startTime < self.root.end and endTime > self.root.start:
+            return False
+        
+        if startTime >= self.root.end: #往右子樹尋找
+            print(f"find right")
+            return self.insert(startTime, endTime, self.root.right)
+        else:
+            print(f"find left")
+            return self.insert(startTime, endTime, self.root.left)
+
             
 # Your MyCalendar object will be instantiated and called as such:
-# obj = MyCalendar()
-# param_1 = obj.book(startTime,endTime)
+obj = MyCalendar()
+print(obj.book(47,50))
+print(obj.book(33,41))
+print(obj.book(39,45))
+print(obj.book(33,42))
+print(obj.book(25,32))
+print(obj.book(36,25))
+print(obj.book(19,25))
+print(obj.book(3,8))
+print(obj.book(8,13))
+print(obj.book(18,27))
+
+
