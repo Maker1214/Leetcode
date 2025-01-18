@@ -30,7 +30,7 @@
 # 0 <= start < end <= 109
 # At most 1000 calls will be made to book.
 
-#O(n * m), n is the len(elf.calendar), m is the number of booking
+#Brute Force : O(n * m), n is the len(self.calendar), m is the number of booking
 # class MyCalendar:
 
 #     def __init__(self):
@@ -43,6 +43,8 @@
 #         self.calendar.append([startTime, endTime])
 #         return True
 
+# Binary Tree : O(m * log n)
+# recursive
 class treeNode:
     def __init__(self, s: int, e: int):
         self.start = s
@@ -55,26 +57,73 @@ class MyCalendar:
         self.root = None
     
     def book(self, startTime: int, endTime: int) -> bool:
-        return self.insert(startTime, endTime, self.root)        
-
-    def insert(self, startTime: int, endTime: int, rootNode) -> bool:
-        print(f"book {startTime, endTime}")
-        if not rootNode:
+        print(f"check {startTime, endTime}")
+        if not self.root:
             self.root = treeNode(startTime, endTime)
-            print(f"Add a treeNode {startTime, endTime}")
             return True
-        
-        if startTime < self.root.end and endTime > self.root.start:
-            return False
-        
-        if startTime >= self.root.end: #往右子樹尋找
-            print(f"find right")
-            return self.insert(startTime, endTime, self.root.right)
-        else:
-            print(f"find left")
-            return self.insert(startTime, endTime, self.root.left)
+        return self.insert(self.root, startTime, endTime)
 
+    def insert(self, node, startTime, endTime) -> bool:
+        print(f"curr node is {node.start, node.end}")
+        if startTime < node.end and endTime > node.start: # the time period was booked
+            print(f"the time period was booked")
+            return False
+        if endTime <= node.start: # find the left tree
+            print(f"find the left tree")
+            if not node.left:
+                node.left = treeNode(startTime, endTime)
+                return True
+            return self.insert(node.left, startTime, endTime)
             
+        else: # find the right tree
+            print(f"find the rght tree")
+            if not node.right:
+                node.right = treeNode(startTime, endTime)
+                return True
+            return self.insert(node.right, startTime, endTime)
+        
+# iterative
+# class treeNode:
+#     def __init__(self, s: int, e: int):
+#         self.start = s
+#         self.end = e
+#         self.left = None
+#         self.right = None
+    
+#     def insert(self, startTime: int, endTime: int) -> bool:
+#         curr = self
+#         while True:
+#             #print(f"curr is {curr.start, curr.end}")
+#             if endTime <= curr.start: 
+#                 #print(f"find left")                
+#                 # find left tree
+#                 if not curr.left:
+#                     curr.left = treeNode(startTime, endTime)
+#                     return True
+#                 curr = curr.left                                    
+#             elif startTime >= curr.end:
+#                 #print(f"find right")
+#                 # find right tree
+#                 if not curr.right:
+#                     curr.right = treeNode(startTime, endTime)
+#                     return True
+#                 curr = curr.right
+#             else:
+#                 return False
+
+# class MyCalendar:
+#     def __init__(self):
+#         self.root = None
+
+#     def book(self, startTime: int, endTime: int) -> bool:
+#         #print(f"book is {startTime, endTime}")
+#         if not self.root:
+#             self.root = treeNode(startTime, endTime)
+#             return True
+#         return self.root.insert(startTime, endTime)
+        
+
+
 # Your MyCalendar object will be instantiated and called as such:
 obj = MyCalendar()
 print(obj.book(47,50))
@@ -82,7 +131,7 @@ print(obj.book(33,41))
 print(obj.book(39,45))
 print(obj.book(33,42))
 print(obj.book(25,32))
-print(obj.book(36,25))
+print(obj.book(26,35))
 print(obj.book(19,25))
 print(obj.book(3,8))
 print(obj.book(8,13))
