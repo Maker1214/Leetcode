@@ -60,8 +60,8 @@ class MyCalendar:
         print(f"check {startTime, endTime}")
         if not self.root:
             self.root = treeNode(startTime, endTime)
-            return True
-        return self.insert(self.root, startTime, endTime)
+            return True            
+        return self.insert(self.root, startTime, endTime)       
 
     def insert(self, node, startTime, endTime) -> bool:
         print(f"curr node is {node.start, node.end}")
@@ -73,8 +73,7 @@ class MyCalendar:
             if not node.left:
                 node.left = treeNode(startTime, endTime)
                 return True
-            return self.insert(node.left, startTime, endTime)
-            
+            return self.insert(node.left, startTime, endTime)            
         else: # find the right tree
             print(f"find the rght tree")
             if not node.right:
