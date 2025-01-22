@@ -60,3 +60,67 @@ for v in range(len(obj.tree)):
 val = obj.query(0, 0, len(nums) - 1, 1 ,5)
 print(val)
 
+
+# class SegmentTree:
+#     def __init__(self, n:int):
+#         self.tree = [0] * 4 * n
+    
+#     def build(self, rootNode:int, start:int, end:int, arr):
+#         if start == end:
+#             self.tree[rootNode] = arr[start]
+#         else:
+#             m = (start + end) // 2
+#             leftNode = rootNode * 2 + 1
+#             rightNode = rootNode * 2 + 2
+#             self.build(leftNode, start, m, arr)
+#             self.build(rightNode, m+1, end, arr)
+#             self.tree[rootNode] = self.tree[leftNode] + self.tree[rightNode]
+    
+#     def update(self, rootNode:int, start:int, end:int, arr, idx:int, val:int):
+#         if start == end:
+#             self.tree[rootNode] = val
+        
+#         else:
+#             m = (start + end) // 2
+#             leftNode = rootNode * 2 + 1
+#             rightNode = rootNode * 2 + 2
+#             if idx <= m: # idx is in the left tree
+#                 self.update(leftNode, start, m, arr, idx, val)
+#             else: # idx is in the right tree
+#                 self.update(rightNode, m+1, end, arr, idx, val)
+#             self.tree[rootNode] = self.tree[leftNode] + self.tree[rightNode]
+    
+#     def query(self, rootNode: int, start:int, end:int, s:int, e:int) -> int:
+#         if start == s and end == e:
+#             return self.tree[rootNode]
+        
+
+#         m = (start + end) // 2
+#         leftNode = rootNode * 2 + 1
+#         rightNode = rootNode * 2 + 2
+
+#         if e <= m: # the range is all in the left tree
+#             return self.query(leftNode, start, m, s, e)
+#         elif s > m: # the range is all in the right tree
+#             return self.query(rightNode, m + 1, end, s, e)
+#         else: # the range cover left and right tree
+#             return self.query(leftNode, start, m, s, m) + self.query(rightNode, m + 1, end, m+1, e)
+                    
+
+
+# nums = [1,3,5,7,9,11]
+# obj = SegmentTree(len(nums))
+# obj.build(0, 0, len(nums) - 1, nums)
+
+# for v in range(len(obj.tree)):
+#     print(f"tree node {v} is {obj.tree[v]}")
+
+# print("=======")
+
+# obj.update(0, 0, len(nums) - 1, nums, 4, 6)
+# for v in range(len(obj.tree)):
+#     print(f"tree node {v} is {obj.tree[v]}")
+
+# val = obj.query(0, 0, len(nums) - 1, 1 ,5)
+# print(val)
+        
