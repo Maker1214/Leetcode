@@ -1,5 +1,4 @@
-
-
+# 1. # heapq.heappush會根據list的第一個element的值來做Min heap
 # import heapq
 
 # points = [[5,-1],[-2,4],[3,3],[1,1]]
@@ -13,53 +12,61 @@
 #     # 根據第一個element的值來做Min heap
 #     print(heapq.heappop(minHeap))
 
-
-
+# 2. list has no attribute "lower"
 # test = ["A","B"]
 # word = "CD"
 
-# test.lower()
+# test.lower() # it would fail because list has no attribute "lower"
 # word.lower()
 
 # print(test, word)
 
-# comprehension for initializetion
-a = [i for i in range(5)] # [0,1,2,3,4]
-b = {i: [i] for i in range(5)}
 
-for key in b:
-    print(key, b[key])
+# 3. comprehension for initializetion
+# a = [i for i in range(5)] # [0,1,2,3,4]
+# b = {i: [i] for i in range(5)}
 
+# for key in b:
+#     print(key, b[key])
 
+# 4.
+# accounts = ["John","john_newyork@mail.com", "Aohnsmith@mail.com", "john00@mail.com", "johna@mail.com"]
 
-accounts = ["John","Aohnsmith@mail.com","john_newyork@mail.com", "john00@mail.com", "johna@mail.com"]
+# accounts[1:].sort() # it does not work
 
-accounts[1:].sort()
-
-print(accounts)
-
-
-for i in range(9):
-    print(f"{i} binary : {i:b}")
-    print(f"{-1 * i} binary : {(-1 * i):b}")
+# print(accounts)
 
 
-
-a = 3
-
-
-print(~a + 1)
-
-b = -3
-print(~((b ^ 0xf) & 0xf))
+# for i in range(9):
+#     print(f"{i} binary : {i:b}")
+#     print(f"{-1 * i} binary : {(-1 * i):b}")
 
 
-def printA(a):
-    a = 5
-    print(f"inner a is {a}")
+
+# a = 3
 
 
-b = 6
-print(f"before b is {b}")
-printA(b)
-print(f"after b is {b}")
+# print(~a + 1)
+
+# b = -3
+# print(~((b ^ 0xf) & 0xf))
+
+
+# def printA(a):
+#     a = 5
+#     print(f"inner a is {a}")
+
+
+# b = 6
+# print(f"before b is {b}")
+# printA(b)
+# print(f"after b is {b}")
+
+# global variable
+res = []
+
+def printRes(a:int):
+    res.append(a)
+    print(res)
+
+printRes(2)
