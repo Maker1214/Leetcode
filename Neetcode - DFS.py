@@ -3,40 +3,27 @@ class TreeNode:
         self.val = val
         self.left = None
         self.right = None
-
-# sort(small -> big)
-# time complexity : O(n)
-def inorder(root):
-    if not root:
-        return
+    # 對BST而言，inorder可依序由小到大印出
+    def inorder(self, root: "TreeNode") -> None: # 由小到大
+        if root:
+            self.inorder(root.left)
+            print(root.val)
+            self.inorder(root.right)
     
-    inorder(root.left)
-    print(root.val)
-    inorder(root.right)
-
-# time complexity : O(n)
-# sort(big -> small)
-def inorder(root):
-    if not root:
-        return
-    inorder(root.right)
-    print(root.val)
-    inorder(root.left)
-
-# time complexity : O(n)
-def preorder(root):
-    if not root:
-        return
+    def inorder(self, root: "TreeNode") -> None: # 由大到小
+        if root:
+            self.inorder(root.right)
+            print(root.val)
+            self.inorder(root.left)
     
-    print(root.val)
-    preorder(root.left)
-    preorder(root.right)
-
-# time complexity : O(n)
-def postorder(root):
-    if not root:
-        return
+    def preorder(self, root: "TreeNode") -> None:
+        if root:
+            print(root.val)
+            self.preorder(root.left)
+            self.preorder(root.right)
     
-    postorder(root.left)
-    postorder(root.right)
-    print(root.val)
+    def postorder(self, root: "TreeNode") -> None:
+        if root:
+            self.postorder(root.left)
+            self.postorder(root.right)
+            print(root.val)

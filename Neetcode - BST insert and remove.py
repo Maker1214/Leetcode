@@ -3,8 +3,8 @@ class TreeNode:
         self.val = val
         self.left = None
         self.right = None
-
-# time complexity : O(logn) ==> 比 sorted array還快，array要插入一個值得time complexity為 O(n)
+# worst case為只有左子樹或只有右子樹
+# time complexity : O(logn)，但worst case為O(n) ==> sorted array要插入一個值為 O(n)
 def insert(root,treeNode):
     if not root:
         return treeNode
@@ -16,7 +16,7 @@ def insert(root,treeNode):
     
     return root
 
-# time complexity : O(logn)
+# time complexity : O(logn)，但worst case為O(n) ==> sorted array要找到最小值為O(1)
 def findMinNode(root):
     while root and root.left:
         root = root.left
@@ -29,8 +29,7 @@ def findMinNode(root):
         return root
     return findMinNode(root.left)
 
-
-# time complexity : O(logn) ==> 比 sorted array還快，array要插入一個值得time complexity為 O(n)
+# time complexity : O(logn)，但worst case為O(n) ==> sorted array要移除一個值為O(n)
 def remove(root, val):
     # 沒有找到 val
     if not root: 
@@ -42,10 +41,10 @@ def remove(root, val):
     elif root.val < val:
         root.right = remove(root.right, val)
     else:
-        # 0 or 1 child且右邊無child
+        # 0 or 1 child且無右子樹
         if not root.right:
             return root.left
-        # 0 or 1 child且左邊無child
+        # 0 or 1 child且無左子樹
         elif not root.left:
             return root.right
         # 2 children
