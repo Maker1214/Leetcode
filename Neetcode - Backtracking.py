@@ -50,30 +50,24 @@ class TreeNode():
             return True
         return False # root 只有一個 child 且 child值為0時進到這一行
     
-    def printNoneZeroPath(self, root: "TreeNode") -> Optional[int] :
-        res = []
+    def printNoneZeroPath(self, root: "TreeNode", path: Optional[int]) -> bool:
+        if not root or root.val == 0:
+            return False
+        
+        path.append(root.val)
+        
+        if not root.left and not root.right:
+            return True
+        
+        if self.printNoneZeroPath(root.left, path):
+            return True
+        if self.printNoneZeroPath(root.right, path):
+            return True
+        
+        path.pop()
+        return False
         
 
-        while len(stack):
-            cur = queue.pop()
-            if root and root.val:
-                res.append(root.val)
-            if root and root.left:
-                stack.append(root.left)
-            if root and root.right:
-                stack.append(root.right)
-            
-
-        
-        
-
-        
-
-
-
-    
-    
-        
 root = TreeNode(4)
 nums = [0,1,5,7,3,2,1,2,3,4,0]
 for i in nums:
@@ -82,4 +76,10 @@ for i in nums:
 print("==========")
 root.BFS(root)
 
-print(root.findNoneZeroPath(root))
+print(f"reach leaf node: {root.findNoneZeroPath(root)}")
+
+print("==========")
+
+res = []
+root.printNoneZeroPath(root, res)
+print(f"None zero path: {res}")
