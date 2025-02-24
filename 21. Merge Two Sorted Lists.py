@@ -21,6 +21,7 @@
 # Output: [0]
 
 # Definition for singly-linked list.
+from typing import Optional
 class ListNode:
     def __init__(self, val=0, next=None):
         self.val = val
@@ -32,15 +33,12 @@ class Solution:
         while list1 and list2:
             if list1.val <= list2.val:
                 curr.next = list1
-                curr = list1
                 list1 = list1.next
             else:
                 curr.next = list2
-                curr = list2
                 list2 = list2.next
+            cur = cur.next
         
         if list1: curr.next = list1
         if list2: curr.next = list2
         return dummy.next
-
-
