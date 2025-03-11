@@ -25,15 +25,22 @@
 # Output: [[0,0,0]]
 # Explanation: The only possible triplet sums up to 0.
 
+##############################################################
+
+############
+# method 1 #
+############
+
+# Time : O(n ** 2) + O(nlogn) = O(n ** 2)
+# Memory : O(n)
+# Two pointer 
 
 class Solution:
     def threeSum(self, nums: list[int]) -> list[list[int]]:
-        # # 可以用程式邏輯來避開重複項目，因此不需要使用 set
-        # res = set()
         res = []
         nums.sort()
         for i in range(len(nums)):
-            if i > 0 and nums[i] == nums[i - 1]: continue
+            if i > 0 and nums[i] == nums[i - 1]: continue # the duplicated num
             target = 0 - nums[i]
             l, r = i + 1, len(nums) - 1
 
@@ -44,16 +51,12 @@ class Solution:
                 elif currSum > target:
                     r -= 1
                 else:
-                    # # 可以用程式邏輯來避開重複項目，因此不需要使用 set
-                    # res.add(tuple([nums[i], nums[l], nums[r]]))
-                    # # nums[l] 如果與 nums[l-1]相同的話，肯定會有相同的nums[r]，因此這裡不需要update r，只需要update l並確保nums[l] 與 nums[l - 1]不相同
-                    # l += 1
-                    # r -= 1
+                    # we just need to move the left pointer l to the position which nums[l] != nums[l - 1]
+                    # after that, we could start the next outter while loop
                     res.append([nums[i], nums[l], nums[r]])
                     l += 1
                     while nums[l] == nums[l - 1] and l < r:
                         l += 1
-        
         return res
 
 test = Solution()

@@ -63,10 +63,32 @@
 # print(f"after b is {b}")
 
 # global variable
-res = []
+# res = []
 
-def printRes(a:int):
-    res.append(a)
-    print(res)
+# def printRes(a:int):
+#     res.append(a)
+#     print(res)
 
-printRes(2)
+# printRes(2)
+# class TreeNode():
+#     def __init__(self,value:int):
+#         self.val = value
+#         self.left = None
+#         self.right = None
+    
+# from typing import List, Optional
+# def printVal(a:TreeNode):
+#     print(f"non typing hints, a is {a}")
+
+# nums = []
+# printVal(nums)
+
+# def printValTypingHints(a:Optional[TreeNode]):
+#     print(f"typing hints, a is {a}")
+
+# nums = []
+# printValTypingHints(nums)
+
+nums = [1]
+
+print(nums[1:])

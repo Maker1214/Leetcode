@@ -26,23 +26,28 @@
 # 2 <= n <= 105
 # 0 <= height[i] <= 104
 
+##############################################################
 
+############
+# method 1 #
+############
+
+# Time : O(n)
+# Memory : O(1)
+# Two pointer 
+
+from typing import List
 class Solution:
-    def maxArea(self, height: list[int]) -> int:
-        l, r = 0, len(height) - 1
-        res = 0
+    def maxArea(self, height: List[int]) -> int:
+        l , r = 0, len(height) - 1
+        area = 0
         while l < r:
-            tempArea = (r - l) * min(height[l], height[r])
-            res = max(res, tempArea)
+            area = max(area, (r - l) * min(height[l], height[r]))
             if height[l] < height[r]:
                 l += 1
-            elif height[l] > height[r]:
-                r -= 1
-
             else:
-                l += 1
                 r -= 1
-        return res
+        return area
     
 test = Solution()
 print(test.maxArea([1,8,6,2,5,4,8,3,7]))

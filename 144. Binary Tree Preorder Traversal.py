@@ -81,18 +81,18 @@ class TreeNode:
 #         return res
 
 #iterative 寫法2 : time O(n) space O(n)
-class Solution:
-    def preorderTraversal(self, root: Optional[TreeNode]) -> List[int]:        
-        res = []
-        nodeStack = [] # without this stack, we can't got back to the right sub tree
+# class Solution:
+#     def preorderTraversal(self, root: Optional[TreeNode]) -> List[int]:        
+#         res = []
+#         nodeStack = [] # without this stack, we can't got back to the right sub tree
 
-        while root or nodeStack:
-            if root:
-                res.append(root.val)
-                nodeStack.append(root.right)
-                root = root.left
-            else: # when no root and root.left, we pop the right sub tree
-                root = nodeStack.pop()
+#         while root or nodeStack:
+#             if root:
+#                 res.append(root.val)
+#                 nodeStack.append(root.right)
+#                 root = root.left
+#             else: # when no root and root.left, we pop the right sub tree
+#                 root = nodeStack.pop()
         
-        return res
-                
+#         return res
+

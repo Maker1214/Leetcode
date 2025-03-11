@@ -30,32 +30,39 @@
 #  [(3, "cat"), (3, "bird"), (2, "dog")],
 #  [(2, "dog"), (3, "cat"), (3, "bird")]]
 # In this example, you can observe that the pairs with key=3 ("cat" and "bird") maintain their relative order, illustrating the stability of the Insertion Sort algorithm.
-
+from typing import Optional
 # Definition for a pair.
-class Pair:
-    def __init__(self, key: int, value: str):
-        self.key = key
-        self.value = value
+# class Pair:
+#     def __init__(self, key: int, value: str):
+#         self.key = key
+#         self.value = value
+# # Time: O(n ** 2), Memory : O(n)
+# class Solution:
+#     def insertionSort(self, pairs: list[Pair]) -> list[list[Pair]]:
 
-class Solution:
-    def insertionSort(self, pairs: list[Pair]) -> list[list[Pair]]:
-        res = []
+#         for i in range(len(pairs)):
+#             while i > 0 and pairs[i].key < pairs[i - 1].key:
+#                 pairs[i], pairs[i - 1] = pairs[i - 1], pairs[i]
+#                 i -= 1
         
-        for i in range(len(pairs)):
-            j = i - 1
-            while j >= 0 and pairs[j + 1].key < pairs[j].key:
-                pairs[j + 1], pairs[j] = pairs[j], pairs[j + 1]
-                j -= 1
-            res.append([p for p in pairs])
-        
-        return res
+#         return pairs
 
-test = Solution()
-pairs = [Pair(5, "Apple"), Pair(1, "Orange"), Pair(3, "Guava")]
+# test = Solution()
+# pairs = [Pair(5, "Apple"), Pair(1, "Orange"), Pair(3, "Guava")]
 
-output = test.insertionSort(pairs)
+# output = test.insertionSort(pairs)
+# for o in output:
+#     print(o.key, o.value)
 
-for o in output:
-    print(o[0].key, o[0].value, o[1].key, o[1].value, o[2].key, o[2].value)
+def insertionSort(nums: Optional[int]):
+    for i in range(1, len(nums)):
+        # 若當前元素小於左邊元素，則進行swap，直到當前元素不小於左邊元素
+        while i > 0 and nums[i] < nums[i - 1]: 
+            nums[i], nums[i - 1] = nums[i - 1], nums[i]
+            i -= 1
+    
+    return nums
+
+print(insertionSort([2,3,1,4,6]))
 
 

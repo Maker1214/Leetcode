@@ -29,6 +29,7 @@
 #         self.left = left
 #         self.right = right
 from collections import deque
+from typing import Optional, List
 class Solution:
     def rightSideView(self, root: Optional[TreeNode]) -> List[int]:
         queue = deque()

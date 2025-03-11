@@ -1,40 +1,48 @@
 # Definition for a pair.
-class Pair:
-    def __init__(self, key: int, value: str):
-        self.key = key
-        self.value = value
+from typing import Optional, List
+# Time : O(nlogn)，但當原本的陣列已經是排序好的陣列時，時間複雜度會變成O(n ** 2)
+# Memory : O(logn) <- recursive深度，但當遇上worst case時，會變成O(n)
+def quickSort(nums: Optional[int], s: int, e: int) -> List:
+    #[1 ,2]
+    #[s, e] => pivot = 2, 跑完後，left = 1
+    #recursive時會變成quickSort(nums, 0, 0)與quickSort(nums, 2, 1)
 
-class Solution:
-    def quickSort(self, pairs: list[Pair]) -> list[Pair]:
-        self.quickSortHelper(pairs, 0, len(pairs) - 1)
-        return pairs
+    #[2, 1]
+    #[s, e] => pivot = 1, 跑完後，left = 0
+    #recursive時會變成quickSort(nums, 0, -1)與quickSort(nums, 1, 1)
+
+    #由以上兩種例子可知，e最後都跟s相同或比s小1
+    if e <= s:
+        return nums
+    pivot = nums[e]
+    left = s
+
+    for i in range(s, e):
+        if nums[i] < pivot:
+            nums[i], nums[left] = nums[left], nums[i]
+            left += 1
     
-    def quickSortHelper(self, pairs, l, r):
-        if r - l <= 0: return pairs
+    nums[e], nums[left] = nums[left], nums[e]
+    quickSort(nums, s, left - 1)
+    quickSort(nums, left + 1, e)
 
-        pivot = pairs[r].key
-        left = l
+    return nums
 
-        for i in range(l,r):
-            if pairs[i].key < pivot:
-                pairs[i], pairs[left] = pairs[left], pairs[i]
-                left += 1
-        
-        pairs[r], pairs[left] = pairs[left], pairs[r]
-        self.quickSortHelper(pairs, l, left - 1)
-        self.quickSortHelper(pairs, left + 1, r)
+nums = [6,2,4,1,3]
+
+print(quickSort(nums, 0, len(nums) - 1))
 
 
+def quick_Sort(nums: Optional[int]) -> List:
+    if len(nums) <= 1:
+        return nums
+    pivot = nums[len(nums) // 2]
+    left = [l for l in nums if l < pivot]
+    middle = [m for m in nums if m == pivot]
+    right = [r for r in nums if r > pivot]
 
-pairs = [Pair(3, "cat"), Pair(2, "dog"), Pair(3, "bird")]
-# After QuickSort, paris becomes (2, "dog"), (3, "bird"), (3, "cat"). It's unstable.
-test = Solution()
-test.quickSort(pairs)
+    return quick_Sort(left) + middle + quick_Sort(right)
 
-for p in pairs:
-    print(p.key, p.value)
+nums = [6,2,4,1,3]
 
-
-
-
-        
+print(quick_Sort(nums))   
