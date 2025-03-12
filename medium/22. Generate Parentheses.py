@@ -17,6 +17,16 @@
 
 # 1 <= n <= 8
 
+##############################################################
+
+############
+# method 1 #
+############
+
+# Time : O(4 ** n / sqrt(n)) ==> Catalan Number
+# Memory : O(4 ** n / sqrt(n))
+# backtracking 
+
 # 當open數量小於n時(n為總共幾對括號)，可以加入open或者closed
 # 當open數量大於等於closed數量時，才能加入closed
 # 所有open跟closed都用完後把結果加入res中
@@ -43,3 +53,4 @@ test = Solution()
 
 for i in range(1,6):
     print(f"{i}對括號的結果為{test.generateParenthesis(i)}")
+

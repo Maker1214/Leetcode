@@ -51,7 +51,7 @@ class Solution:
                 elif currSum > target:
                     r -= 1
                 else:
-                    # we just need to move the left pointer l to the position which nums[l] != nums[l - 1]
+                    # we just need to move the left pointer l to the right position until nums[l] != nums[l - 1]
                     # after that, we could start the next outter while loop
                     res.append([nums[i], nums[l], nums[r]])
                     l += 1

@@ -20,12 +20,21 @@
 # Input: list1 = [], list2 = [0]
 # Output: [0]
 
+##############################################################
+
+############
+# method 1 #
+############
 # Definition for singly-linked list.
 from typing import Optional
 class ListNode:
     def __init__(self, val=0, next=None):
         self.val = val
         self.next = next
+
+# Time : O(n)
+# Memory : O(1)
+# use a dummy node to make the code easier
 class Solution:
     def mergeTwoLists(self, list1: Optional[ListNode], list2: Optional[ListNode]) -> Optional[ListNode]:
         dummy = curr = ListNode()
